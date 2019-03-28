@@ -19,12 +19,29 @@
 // *Do not alter index.html or main.css other than adding the links to the external JavaScript inside index.html. Write JavaScript code that works with the existing HTML and CSS to implement the required features.
 // Hint: you may find it helpful to read up on and use the following jQuery methods: .submit(), preventDefault(), toggleClass(), and closest().
 
+function buildListItem(item) {
+  return `<li>
+  <span class="shopping-item">${item}</span>
+  <div class="shopping-item-controls">
+    <button class="shopping-item-toggle">
+      <span class="button-label">check</span>
+    </button>
+    <button class="shopping-item-delete">
+      <span class="button-label">delete</span>
+    </button>
+  </div>
+</li>`;
+}
 
 function main() {
-  enter items they need to purchase by entering text and hitting 
-  "Return" or clicking the "Add item" button
-
-  
+  $("#js-shopping-list-form").on("submit", function(event) {
+    event.preventDefault();
+    console.log(event);
+    console.log($("input").val());
+    const inputValue = $("input").val();
+    const newListItem = buildListItem(inputValue);
+    $(".shopping-list").append(newListItem);
+  });
 }
 
 $(main);
