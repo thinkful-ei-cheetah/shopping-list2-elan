@@ -11,7 +11,8 @@ const STORE = {
     {id: cuid(), name: 'bread', checked: false}
   ],
   hideCompleted: false,
-  searchTerm: ''
+  searchTerm: '',
+  editTerm: ''
 };
 
 
@@ -25,6 +26,9 @@ function generateItemElement(item) {
         </button>
         <button class="shopping-item-delete js-item-delete">
             <span class="button-label">delete</span>
+        </button>
+        <button class = "shopping-item-edit js-item-edit">
+            <span class="button-label">edit</span>
         </button>
       </div>
     </li>`;
@@ -129,7 +133,7 @@ function handleToggleHideFilter() {
 
 // search box
 function handleSearchForItem() {
-  // this function should take the value entered into the search box and compare it to all elements in the STORE.items array of objects
+  
   $('#js-search-submit-form').submit(function(event) {
     event.preventDefault();
     STORE.searchTerm = $('.js-search-item').val();
@@ -138,6 +142,23 @@ function handleSearchForItem() {
   });
 }
 
+function changeName(itemId) {
+  const foundItem = STORE.items.find(item => item.id === itemId);
+  foundItem.name = STORE.editTerm;
+}
+
+// edit function
+function handleEditItem() {
+  $('.js-shopping-list').on('click', '.js-item-edit', function(event) {
+    STORE.editTerm = prompt('Please enter your new shopping list item');
+    const id = getItemIdFromElement(event.currentTarget);
+    changeName(id);
+    renderShoppingList();
+  });
+}
+
+
+
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
@@ -145,6 +166,7 @@ function handleShoppingList() {
   handleDeleteItemClicked();
   handleToggleHideFilter();
   handleSearchForItem();
+  handleEditItem();
 }
 
 
