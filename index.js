@@ -121,6 +121,13 @@ function handleToggleHideFilter() {
   });
 }
 
+// search box
+function searchForItem() {
+  // this function should take the value entered into the search box and compare it to all elements in the STORE.items array of objects
+  const searchItem = $('.js-search-item').val();
+  console.log(searchItem);
+}
+
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
