@@ -7,56 +7,65 @@ const STORE = [
   {id: cuid(), name: 'bread', checked: false}
 ];
 
+
 function generateItemElement(item) {
   return `
-  <li class='js-item-index-element' data-item-id="${item.id}">
-    <span class="shopping-item js-shopping-item ${item.checked ? 'shopping-item__checked' : ''}'>${item.name}</span>
-    <div class='shpping-item-controls'>
-      <button class='shopping-item-toggle js-item-toggle'>
-        <span class='button-label'>check</span>
-      </button>
-      <button class='shopping-item-delete js-item-delete'>
-        <span class='button-label'>delete</span>
-      </button>
-    </div>
-  </li>` ;
-
+    <li data-item-id="${item.id}">
+      <span class="shopping-item js-shopping-item ${item.checked ? 'shopping-item__checked' : ''}">${item.name}</span>
+      <div class="shopping-item-controls">
+        <button class="shopping-item-toggle js-item-toggle">
+            <span class="button-label">check</span>
+        </button>
+        <button class="shopping-item-delete js-item-delete">
+            <span class="button-label">delete</span>
+        </button>
+      </div>
+    </li>`;
 }
+
 
 function generateShoppingItemsString(shoppingList) {
   console.log('Generating shopping list element');
-  const items = shoppingList.map((item ) => generateItemElement(item));
 
+  const items = shoppingList.map((item) => generateItemElement(item));
+  
   return items.join('');
 }
 
+
 function renderShoppingList() {
-  // render the shopping list in the DOM
   console.log('`renderShoppingList` ran');
   const shoppingListItemsString = generateShoppingItemsString(STORE);
   $('.js-shopping-list').html(shoppingListItemsString);
 }
 
+
 function handleNewItemSubmit() {
+
 
   console.log('`handleNewItemSubmit` ran');
 }
 
+
 function handleItemCheckClicked() {
+
 
   console.log('`handleItemCheckClicked` ran');
 }
+
 
 function handleDeleteItemClicked() {
 
   console.log('`handleDeleteItemClicked` ran');
 }
+
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
-  console.log('`renderShoppingList` ran');
+
 }
+
 
 $(handleShoppingList);
