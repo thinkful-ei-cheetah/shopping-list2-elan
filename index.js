@@ -8,7 +8,7 @@
 
 // In terms of user experience, your shopping list app must allow users to:
 
-// enter items they need to purchase by entering text and hitting "Return" or clicking the "Add item" button
+// *enter items they need to purchase by entering text and hitting "Return" or clicking the "Add item" button
 // check and uncheck items on the list by clicking the "Check" button
 // permanently remove items from the list
 // Additionally:
@@ -36,11 +36,21 @@ function buildListItem(item) {
 function main() {
   $("#js-shopping-list-form").on("submit", function(event) {
     event.preventDefault();
-    console.log(event);
-    console.log($("input").val());
     const inputValue = $("input").val();
     const newListItem = buildListItem(inputValue);
     $(".shopping-list").append(newListItem);
+  });
+
+  $("ul").on("click", ".shopping-item-delete", function(event) {
+    event.currentTarget.closest("li").remove();
+  });
+
+  $("ul").on("click", ".shopping-item-toggle", function(event) {
+    let element = event.currentTarget.closest("div");
+
+    $(element)
+      .siblings()
+      .toggleClass("shopping-item__checked");
   });
 }
 
