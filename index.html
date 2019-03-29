@@ -20,8 +20,11 @@
         <div class="filter-controls">
             <input type="checkbox" id="hide-completed-toggle" class="js-hide-completed-toggle"/>
             <label for="hide-completed-toggle">Hide Completed</label>
-            <input type="text" id="search-items" class="js-search-item" placeholder="e.g., apple">
-            <button type="submit">Search</button>
+            <form id="js-search-submit-form">
+                <label for="shopping-list-search">Search</label>
+                <input type="text" name="shopping-list-search" id="search-items" class="js-search-item" placeholder="e.g., apple">
+                <button type="submit">Search</button>
+            </form>
         </div>
         <ul class="shopping-list js-shopping-list">
         </ul>

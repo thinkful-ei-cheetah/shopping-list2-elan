@@ -10,7 +10,8 @@ const STORE = {
     {id: cuid(), name: 'milk', checked: true},
     {id: cuid(), name: 'bread', checked: false}
   ],
-  hideCompleted: false
+  hideCompleted: false,
+  searchTerm: ''
 };
 
 
@@ -44,6 +45,11 @@ function renderShoppingList() {
   let filteredItems = STORE.items;
   if (STORE.hideCompleted) {
     filteredItems = filteredItems.filter(item => !item.checked);
+  }
+  if (STORE.searchTerm) {
+    filteredItems = filteredItems.filter(item => {
+      return item.name.includes(STORE.searchTerm);
+    });
   }
   const shoppingListItemsString = generateShoppingItemsString(filteredItems);
   $('.js-shopping-list').html(shoppingListItemsString);
@@ -122,10 +128,14 @@ function handleToggleHideFilter() {
 }
 
 // search box
-function searchForItem() {
+function handleSearchForItem() {
   // this function should take the value entered into the search box and compare it to all elements in the STORE.items array of objects
-  const searchItem = $('.js-search-item').val();
-  console.log(searchItem);
+  $('#js-search-submit-form').submit(function(event) {
+    event.preventDefault();
+    STORE.searchTerm = $('.js-search-item').val();
+    $('.js-search-item').val('');
+    renderShoppingList();
+  });
 }
 
 function handleShoppingList() {
@@ -134,6 +144,7 @@ function handleShoppingList() {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleHideFilter();
+  handleSearchForItem();
 }
 
 
