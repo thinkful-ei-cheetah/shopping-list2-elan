@@ -2,12 +2,16 @@
 /* global cuid */
 /* global $ */
 
-const STORE = [
-  {id: cuid(), name: 'apples', checked: false},
-  {id: cuid(), name: 'oranges', checked: false},
-  {id: cuid(), name: 'milk', checked: true},
-  {id: cuid(), name: 'bread', checked: false}
-];
+// change store to an object with an array of the objects inside; this allows us to add a boolean hideCompleted property
+const STORE = {
+  items: [
+    {id: cuid(), name: 'apples', checked: false},
+    {id: cuid(), name: 'oranges', checked: false},
+    {id: cuid(), name: 'milk', checked: true},
+    {id: cuid(), name: 'bread', checked: false}
+  ],
+  hideCompleted: false
+};
 
 
 function generateItemElement(item) {
@@ -37,13 +41,17 @@ function generateShoppingItemsString(shoppingList) {
 
 function renderShoppingList() {
   console.log('`renderShoppingList` ran');
-  const shoppingListItemsString = generateShoppingItemsString(STORE);
+  let filteredItems = STORE.items;
+  if (STORE.hideCompleted) {
+    filteredItems = filteredItems.filter(item => !item.checked);
+  }
+  const shoppingListItemsString = generateShoppingItemsString(filteredItems);
   $('.js-shopping-list').html(shoppingListItemsString);
 }
 
 function addItemToShoppingList(itemName) {
   console.log(`Adding "${itemName}" to shopping list`);
-  STORE.push({id: cuid(), name: itemName, checked: false});
+  STORE.items.push({id: cuid(), name: itemName, checked: false});
 }
 
 function handleNewItemSubmit() {
@@ -61,7 +69,7 @@ function handleNewItemSubmit() {
 
 function toggleCheckedForListItem(itemId) {
   console.log('Toggling checked property for item with id ' + itemId);
-  const item = STORE.find(item => item.id === itemId);
+  const item = STORE.items.find(item => item.id === itemId);
   item.checked = !item.checked;
 }
 
@@ -83,9 +91,9 @@ function handleItemCheckClicked() {
 }
 function deleteItem(itemId) {
   // create a variable which stores the item's index based on its id
-  const itemIndex = STORE.findIndex(item => item.id === itemId);
+  const itemIndex = STORE.items.findIndex(item => item.id === itemId);
   // this removes the item from the array
-  STORE.splice(itemIndex, 1);
+  STORE.items.splice(itemIndex, 1);
 }
 
 
@@ -102,12 +110,23 @@ function handleDeleteItemClicked() {
   });
 }
 
+function toggleHideFilter() {
+  STORE.hideCompleted = !STORE.hideCompleted;
+}
+
+function handleToggleHideFilter() {
+  $('.js-hide-completed-toggle').on('click', () => {
+    toggleHideFilter();
+    renderShoppingList();
+  });
+}
+
 function handleShoppingList() {
   renderShoppingList();
   handleNewItemSubmit();
   handleItemCheckClicked();
   handleDeleteItemClicked();
-
+  handleToggleHideFilter();
 }
 
 
