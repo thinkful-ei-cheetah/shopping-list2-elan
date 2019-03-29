@@ -46,7 +46,7 @@ function main() {
   });
 
   $("ul").on("click", ".shopping-item-toggle", function(event) {
-    let element = event.currentTarget.closest("div");
+    let element = this.closest("div");
 
     $(element)
       .siblings()
